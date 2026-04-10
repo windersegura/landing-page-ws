@@ -11,8 +11,8 @@ const Hero: React.FC = () => {
           like React, TypeScript, and CSS. Passionate about user experience and clean code.
         </p>
         <div className="hero-buttons">
-          <button className="primary-btn">View Projects</button>
-          <button className="secondary-btn">Contact Me</button>
+          {/* <button className="primary-btn">View Projects</button>
+          <button className="secondary-btn">Contact Me</button> */}
         </div>
       </div>
       <div className="hero-image">

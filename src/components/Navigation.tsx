@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 interface NavigationProps {
   activeSection: string;
@@ -7,12 +7,19 @@ interface NavigationProps {
 
 const Navigation: React.FC<NavigationProps> = ({ activeSection, setActiveSection }) => {
   const navItems = [
-    { id: 'about', label: 'About' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'experience', label: 'Experience' },
-    { id: 'contact', label: 'Contact' },
+    { id: 'about', label: 'About', sectionId: 'hero' },
+    { id: 'skills', label: 'Skills', sectionId: 'skills' },
+    { id: 'projects', label: 'Projects', sectionId: 'projects' },
+    { id: 'contact', label: 'Contact', sectionId: 'contact' },
   ];
+
+  const handleNavClick = (id: string, sectionId: string) => {
+    setActiveSection(id);
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <nav className="navigation">
@@ -25,7 +32,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeSection, setActiveSection
             <li key={item.id}>
               <button
                 className={activeSection === item.id ? 'active' : ''}
-                onClick={() => setActiveSection(item.id)}
+                onClick={() => handleNavClick(item.id, item.sectionId)}
               >
                 {item.label}
               </button>
