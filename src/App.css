@@ -50,6 +50,9 @@
   display: none;
   flex-direction: column;
   cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
 }
 
 .hamburger span {
@@ -58,6 +61,19 @@
   background: var(--text);
   margin: 3px 0;
   transition: 0.3s;
+  display: block;
+}
+
+.hamburger--open span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.hamburger--open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger--open span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
 }
 
 /* Main Content */
@@ -412,6 +428,23 @@ section h2 {
   margin-bottom: 1.5rem;
 }
 
+.contact-form label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--text-h);
+  font-weight: 500;
+}
+
+.form-success {
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  color: var(--accent);
+  padding: 0.8rem 1rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+}
+
 .contact-form input,
 .contact-form textarea {
   width: 100%;
@@ -498,6 +531,18 @@ section h2 {
 @media (max-width: 900px) {
   .nav-menu {
     display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2%;
+  }
+
+  .nav-menu--open {
+    display: flex;
   }
 
   .hamburger {

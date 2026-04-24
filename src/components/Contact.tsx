@@ -12,6 +12,7 @@ const Contact: React.FC = () => {
     email: '',
     message: '',
   });
+  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -25,9 +26,8 @@ const Contact: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! I will get back to you soon.');
+    // TODO: wire up a real submission endpoint (e.g. EmailJS, Resend, Formspree)
+    setSubmitted(true);
     setFormData({ name: '', email: '', message: '' });
   };
 
@@ -55,8 +55,15 @@ const Contact: React.FC = () => {
           </div>
         </div>
         <form className="contact-form" onSubmit={handleSubmit}>
+          {submitted && (
+            <p className="form-success">
+              Thank you for your message! I will get back to you soon.
+            </p>
+          )}
           <div className="form-group">
+            <label htmlFor="contact-name">Name</label>
             <input
+              id="contact-name"
               type="text"
               name="name"
               placeholder="Your Name"
@@ -66,7 +73,9 @@ const Contact: React.FC = () => {
             />
           </div>
           <div className="form-group">
+            <label htmlFor="contact-email">Email</label>
             <input
+              id="contact-email"
               type="email"
               name="email"
               placeholder="Your Email"
@@ -76,7 +85,9 @@ const Contact: React.FC = () => {
             />
           </div>
           <div className="form-group">
+            <label htmlFor="contact-message">Message</label>
             <textarea
+              id="contact-message"
               name="message"
               placeholder="Your Message"
               rows={5}

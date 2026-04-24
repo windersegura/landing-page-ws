@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface NavigationProps {
   activeSection: string;
@@ -6,6 +6,8 @@ interface NavigationProps {
 }
 
 const Navigation: React.FC<NavigationProps> = ({ activeSection, setActiveSection }) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const navItems = [
     { id: 'about', label: 'About', sectionId: 'hero' },
     { id: 'skills', label: 'Skills', sectionId: 'skills' },
@@ -15,6 +17,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeSection, setActiveSection
 
   const handleNavClick = (id: string, sectionId: string) => {
     setActiveSection(id);
+    setMenuOpen(false);
     const section = document.getElementById(sectionId);
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
@@ -27,7 +30,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeSection, setActiveSection
         <div className="logo">
           <h2>Portfolio</h2>
         </div>
-        <ul className="nav-menu">
+        <ul className={`nav-menu${menuOpen ? ' nav-menu--open' : ''}`}>
           {navItems.map((item) => (
             <li key={item.id}>
               <button
@@ -39,11 +42,16 @@ const Navigation: React.FC<NavigationProps> = ({ activeSection, setActiveSection
             </li>
           ))}
         </ul>
-        <div className="hamburger" onClick={() => console.log('toggle menu')}>
+        <button
+          className={`hamburger${menuOpen ? ' hamburger--open' : ''}`}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((prev) => !prev)}
+        >
           <span></span>
           <span></span>
           <span></span>
-        </div>
+        </button>
       </div>
     </nav>
   );

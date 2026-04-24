@@ -1,23 +1,9 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Contact from '../Contact'
 
 describe('Contact Component', () => {
-  // Mock console.log and window.alert
-  const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
-  const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {})
-
-  beforeEach(() => {
-    // Clear mocks before each test
-    consoleSpy.mockClear()
-    alertSpy.mockClear()
-  })
-
-  afterEach(() => {
-    // Cleanup after each test
-    vi.clearAllMocks()
-  })
 
   describe('Rendering', () => {
     it('renders the contact section with correct heading', () => {
@@ -136,13 +122,7 @@ describe('Contact Component', () => {
       await user.click(submitButton)
 
       await waitFor(() => {
-        expect(alertSpy).toHaveBeenCalledWith('Thank you for your message! I will get back to you soon.')
-      })
-
-      expect(consoleSpy).toHaveBeenCalledWith('Form submitted:', {
-        name: 'John Doe',
-        email: 'john@example.com',
-        message: 'Hello, this is a test message.',
+        expect(screen.getByText('Thank you for your message! I will get back to you soon.')).toBeInTheDocument()
       })
     })
 
@@ -205,7 +185,9 @@ describe('Contact Component', () => {
       await user.type(messageInput, 'Hi')
       await user.click(submitButton)
 
-      expect(alertSpy).toHaveBeenCalledWith('Thank you for your message! I will get back to you soon.')
+      await waitFor(() => {
+        expect(screen.getByText('Thank you for your message! I will get back to you soon.')).toBeInTheDocument()
+      })
     })
 
     it('handles rapid form field updates', async () => {
@@ -267,7 +249,6 @@ describe('Contact Component', () => {
       render(<Contact />)
 
       const form = document.querySelector('.contact-form')
-      const submitButton = screen.getByRole('button', { name: /Send Message/i })
 
       // Try to submit with empty name
       const nameInput = screen.getByPlaceholderText('Your Name')
@@ -368,8 +349,6 @@ describe('Contact Component', () => {
       const emailInput = screen.getByPlaceholderText('Your Email')
 
       await user.type(nameInput, 'John')
-      const emailValueBefore = emailInput.getAttribute('value')
-
       await user.type(emailInput, 'john@example.com')
 
       expect(nameInput).toHaveValue('John')
